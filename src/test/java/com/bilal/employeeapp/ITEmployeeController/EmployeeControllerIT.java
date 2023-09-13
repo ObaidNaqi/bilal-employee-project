@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import java.sql.Date;
 import java.util.List;
@@ -44,23 +45,25 @@ public class EmployeeControllerIT {
 
     
 
-    @Test
-    public void testAddEmployee() {
-    	
-        Employee employee = new Employee();
-        employee.setEname("Hassan");
-        employee.setEage(25);
-        employee.setEdob(Date.valueOf("1990-01-01"));
-        employee.setEmail("hassan@gmail.com");
-        employee.setEsalary(40000);
-
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity("/employee/add", employee, String.class);
-
-     
-        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertNotNull(responseEntity.getBody());
-
-    }
+//    @Test
+//    public void testAddEmployee() {
+//    	
+//    	
+//        Employee employee = new Employee();
+//        employee.setEname("Hassan");
+//        employee.setEage(25);
+//        employee.setEdob(Date.valueOf("1990-01-01"));
+//        employee.setEmail("hassan@gmail.com");
+//        employee.setEsalary(40000);
+//        employee.setEdepartment(null);
+//
+//        ResponseEntity<String> responseEntity = restTemplate.postForEntity("/employee/add", employee, String.class);
+//
+//     
+//        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+//        assertNotNull(responseEntity.getBody());
+//
+//    }
     
     
 

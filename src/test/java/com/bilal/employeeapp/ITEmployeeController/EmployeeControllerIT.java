@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import java.sql.Date;
 import java.util.List;

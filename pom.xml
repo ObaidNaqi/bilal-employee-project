@@ -16,6 +16,19 @@
 	<description>Spring boot rest api employee management system</description>
 	<properties>
 		<java.version>1.8</java.version>
+		
+		<sonar.organization>obaidnaqi</sonar.organization>
+  		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.coverage.exclusions>
+			**/EmployeeManagementApplication.*,
+			**/entity/*.*,
+			**/model/*.*
+		</sonar.coverage.exclusions>
+		<sonar.exclusions>
+			**/EmployeeManagementApplication.*,
+			**/entity/*.*,
+			**/model/*.*
+		</sonar.exclusions>
 	</properties>
 
 	<dependencyManagement>
@@ -223,8 +236,10 @@
 				<version>4.3.0</version>
 				<configuration>
 					<jacocoReports>
-						<jacocoReport>${project.build.directory}/jacoco-ut/jacoco.xml</jacocoReport>
-						<jacocoReport>${project.build.directory}/jacoco-it/jacoco.xml</jacocoReport>
+						<jacocoReport>
+							${project.build.directory}/jacoco-ut/jacoco.xml</jacocoReport>
+						<jacocoReport>
+							${project.build.directory}/jacoco-it/jacoco.xml</jacocoReport>
 					</jacocoReports>
 					<failOnServiceError>false</failOnServiceError>
 				</configuration>
@@ -236,6 +251,8 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+
+			<!-- Jacoco -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -262,7 +279,17 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- sonarcloud -->
+
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.9.0.2155</version>
+			</plugin>
 			
+			
+
 		</plugins>
 	</build>
 </project>

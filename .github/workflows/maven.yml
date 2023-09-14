@@ -31,14 +31,14 @@ jobs:
       run: mvn -B package --file pom.xml
 
     - name: Cache SonarCloud packages
-      uses: SonarSource/sonarcloud-github-action@master
+      run: >
+          mvn -B verify sonar:sonar 
+          args: >
+            -Dsonar.organization=obaidnaqi
+            -Dsonar.projectKey=bilal-employee-project
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      with:
-        args: >
-            -Dsonar.organization=obaidnaqi
-            -Dsonar.projectKey=bilal-employee-project
 
     - name: Cache Maven packages
       uses: actions/cache@v2

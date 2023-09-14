@@ -31,11 +31,7 @@ jobs:
       run: mvn -B package --file pom.xml
 
     - name: Cache SonarCloud packages
-      run: >
-          mvn -B verify sonar:sonar 
-          args: >
-            -Dsonar.organization=obaidnaqi
-            -Dsonar.projectKey=bilal-employee-project
+      run: mvn -B verify sonar:sonar -Dsonar.organization=obaidnaqi -Dsonar.projectKey=bilal-employee-project
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

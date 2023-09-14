@@ -221,19 +221,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>org.pitest</groupId>
-				<artifactId>pitest-maven</artifactId>
-				<version>1.1.10</version>
-				<configuration>
-					<targetClasses>
-						<param>com.baeldung.testing.mutation.*</param>
-					</targetClasses>
-					<targetTests>
-						<param>com.baeldung.mutation.test.*</param>
-					</targetTests>
-				</configuration>
-			</plugin>
+			
 			<!-- Coveralls -->
 			<plugin>
 				<groupId>org.eluder.coveralls</groupId>
@@ -284,19 +272,52 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<!-- sonarcloud
-			
+		<!-- Mutation testing -->
 			<plugin>
-			<groupId>org.sonarsource.scanner.maven</groupId>
-			<artifactId>sonar-maven-plugin</artifactId>
-			<version>3.9.0.2155</version>
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+				<version>1.4.10</version>
+				<executions>
+					<execution>
+						<id>pit-report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>mutationCoverage</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<targetClasses>
+						<param>com.bilal.employeeapp.controller.*</param>
+						<param>com.bilal.employeeapp.service.*</param>
+						<param>com.bilal.employeeapp.exceptions.*</param>
+					</targetClasses>
+					<excludedTestClasses>
+						<param>com.bilal.employeeapp.controller.WebControllerTest</param>
+						<param>com.bilal.employeeapp.ITWebController.WebControllerIT</param>
+						<param>com.bilal.employeeapp.e2e.CucumberTestRunnerE2E</param>
+					</excludedTestClasses>
+					<targetTests>
+						<param>com.bilal.employeeapp.controller.EmployeeControllerTest</param>
+						<param>com.bilal.employeeapp.service.EmployeeServiceTest</param>
+						<param>com.bilal.employeeapp.ITEmployeeController.EmployeeControllerIT</param>
+					</targetTests>
+					<avoidCallsTo>
+						<avoidCallsTo>java.util.logging</avoidCallsTo>
+						<avoidCallsTo>org.apache.log4j</avoidCallsTo>
+						<avoidCallsTo>org.slf4j</avoidCallsTo>
+						<avoidCallsTo>org.apache.commons.logging</avoidCallsTo>
+					</avoidCallsTo>
+					<mutators>
+						<mutator>DEFAULTS</mutator>
+					</mutators>
+					<mutationThreshold>80</mutationThreshold>
+					<outputFormats>
+						<outputFormat>XML</outputFormat>
+						<outputFormat>HTML</outputFormat>
+					</outputFormats>
+				</configuration>
 			</plugin>
-			
-			
-			 -->
-
-
 		</plugins>
 	</build>
 </project>

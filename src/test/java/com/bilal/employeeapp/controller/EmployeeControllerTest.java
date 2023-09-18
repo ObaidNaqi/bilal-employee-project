@@ -17,6 +17,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
+import com.bilal.employeeapp.dto.DepartmentDTO;
+import com.bilal.employeeapp.dto.EmployeeDTO;
 import com.bilal.employeeapp.model.Department;
 import com.bilal.employeeapp.model.Employee;
 import com.bilal.employeeapp.service.EmployeeService;
@@ -40,13 +42,13 @@ public class EmployeeControllerTest {
 	    public void testGetAllEmployee() {
 	    	
 	    	// given
-	        List<Employee> employees = new ArrayList<>();
-	        employees.add(new Employee(1, "Bilal", Date.valueOf("1995-01-01"), 30, "bilal@gmail.com", 5000, new Department(2)));
-	        employees.add(new Employee(2, "Ali", Date.valueOf("1992-05-15"), 36, "ali@gmail.com", 6000,new Department(3)));
+	        List<EmployeeDTO> employees = new ArrayList<>();
+	        employees.add(new EmployeeDTO(1, "Bilal", Date.valueOf("1995-01-01"), 30, "bilal@gmail.com", 5000, new DepartmentDTO(2)));
+	        employees.add(new EmployeeDTO(2, "Ali", Date.valueOf("1992-05-15"), 36, "ali@gmail.com", 6000,new DepartmentDTO(3)));
 
 	        when(employeeService.getAllEmployee()).thenReturn(ResponseEntity.ok(employees));
 
-	        ResponseEntity<List<Employee>> response = employeeController.getAllEmployee();
+	        ResponseEntity<List<EmployeeDTO>> response = employeeController.getAllEmployee();
 
 	        assertNotNull(response);
 	        assertEquals(200, response.getStatusCodeValue());
@@ -82,15 +84,15 @@ public class EmployeeControllerTest {
 	   @Test
 	   public void testEmployeeSearchByNameExist() {
 		  
-		  Employee employee = new Employee(1, "Bilal", Date.valueOf("1995-01-01"), 30, "bilal@gmail.com", 5000, new Department(2));
+		  EmployeeDTO employee = new EmployeeDTO(1, "Bilal", Date.valueOf("1995-01-01"), 30, "bilal@gmail.com", 5000, new DepartmentDTO(2));
 		  
-		  List<Employee> employees = new ArrayList<>();
+		  List<EmployeeDTO> employees = new ArrayList<>();
 		  employees.add(employee);
 		
 		  
 		  when(employeeService.findByName("obaid")).thenReturn(ResponseEntity.ok(employees));
 		  
-		  ResponseEntity<List<Employee>> response = employeeController.searchEmployeesByName("obaid");
+		  ResponseEntity<List<EmployeeDTO>> response = employeeController.searchEmployeesByName("obaid");
 		  
 		  
 		  assertNotNull(response);
@@ -102,7 +104,7 @@ public class EmployeeControllerTest {
 	 @Test
 	    public void testAddEmployee() {
 	        
-	        Employee employee = new Employee(2, "Obaid", Date.valueOf("1995-01-01"), 30, "Obaid@gmail.com", 5000, new Department(1));
+	        EmployeeDTO employee = new EmployeeDTO(2, "Obaid", Date.valueOf("1995-01-01"), 30, "Obaid@gmail.com", 5000, new DepartmentDTO(1));
 
 	        when(employeeService.addEmployee(employee)).thenReturn(ResponseEntity.ok("success"));
 
@@ -114,13 +116,13 @@ public class EmployeeControllerTest {
 	 @Test
 	    public void testUpdateEmployee() {
 	        // Create an employee object with updated information
-	        Employee updatedEmployee = new Employee(1, "Zakir", Date.valueOf("1984-01-01"), 32, "Zakir@example.com", 6000, new Department(2));
+	        EmployeeDTO updatedEmployee = new EmployeeDTO(1, "Zakir", Date.valueOf("1984-01-01"), 32, "Zakir@example.com", 6000, new DepartmentDTO(2));
 
 	        // Call the updateEmployee method
 	        employeeController.updateEmployee(1, updatedEmployee);
 
 	        // Verify that the employeeService's updateEmployee method was called with the correct arguments
-	        verify(employeeService).updateEmployee(eq(1), any(Employee.class));
+	        verify(employeeService).updateEmployee(eq(1), any(EmployeeDTO.class));
 	    }
 	 
 	

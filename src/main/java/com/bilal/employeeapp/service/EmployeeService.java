@@ -8,7 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.bilal.employeeapp.dao.IEmployeeDao;
+import com.bilal.employeeapp.dto.DepartmentDTO;
+import com.bilal.employeeapp.dto.EmployeeDTO;
 import com.bilal.employeeapp.exceptions.NotFoundException;
+import com.bilal.employeeapp.model.Department;
 import com.bilal.employeeapp.model.Employee;
 
 @Service
@@ -23,16 +26,22 @@ public class EmployeeService {
 //	}
 //	
 	
-	public ResponseEntity<List<Employee>> getAllEmployee(){
+	public ResponseEntity<List<EmployeeDTO>> getAllEmployee(){
 		
-		List<Employee> employeeList ;
+		List<EmployeeDTO> employeeDTOList = new ArrayList<>();
 		
 		try {
 			
-			employeeList = employeeDao.findAll();
+			List<Employee> employeeList = employeeDao.findAll();
+			
 			
 			if(employeeList != null) {
-				return new ResponseEntity<>(employeeList,HttpStatus.OK);
+				
+				for(Employee e : employeeList) {
+					employeeDTOList.add(convertToEmployeeDTO(e));
+				}
+				
+				return new ResponseEntity<>(employeeDTOList,HttpStatus.OK);
 			}else {
 				return new ResponseEntity<>(new ArrayList<>(),HttpStatus.NOT_FOUND);
 			}
@@ -44,28 +53,23 @@ public class EmployeeService {
 		
 	}
 	
-	public ResponseEntity<String> addEmployee(Employee employee) {
-		
-		
-		try {
-			
-			Employee saveEmployee = employeeDao.save(employee);
-			
-			if(saveEmployee != null) {
-				return ResponseEntity.status(HttpStatus.CREATED).body("Employee added successfully");
-			}
-			else {
-				 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Employee added fail");
-			}
-			
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-		}
+
+	public ResponseEntity<String> addEmployee(EmployeeDTO employeeDTO) {
+	    try {
+	        Employee saveEmployee = employeeDao.save(convertToEmployee(employeeDTO));
+
+	        if (saveEmployee != null) {
+	            return ResponseEntity.status(HttpStatus.CREATED).body("Employee added successfully");
+	        } else {
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Employee added fail");
+	        }
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+	    }
 	}
+
 		
-	
-		
-	public Employee updateEmployee(Integer id, Employee employee) {
+	public Employee updateEmployee(Integer id, EmployeeDTO employeeDTO) {
 		 
 		Employee existingEmployee = employeeDao.findById(id).orElse(null);
 		
@@ -73,12 +77,17 @@ public class EmployeeService {
 			throw new NotFoundException("Employee not found for ID::" +id);
 		}
 		 
-		existingEmployee.setEname(employee.getEname());
-		existingEmployee.setEage(employee.getEage());
-		existingEmployee.setEdob(employee.getEdob());
-		existingEmployee.setEmail(employee.getEmail());
-		existingEmployee.setEsalary(employee.getEsalary());
-		existingEmployee.setEdepartment(employee.getEdepartment());
+		existingEmployee.setEname(employeeDTO.getEname());
+		existingEmployee.setEage(employeeDTO.getEage());
+		existingEmployee.setEdob(employeeDTO.getEdob());
+		existingEmployee.setEmail(employeeDTO.getEmail());
+		existingEmployee.setEsalary(employeeDTO.getEsalary());
+		
+		Department department = new Department();
+		department.setDid(employeeDTO.getEdepartment().getDid());
+		department.setDname(employeeDTO.getEdepartment().getDname());
+		
+		existingEmployee.setEdepartment(department);
 		
 		return employeeDao.save(existingEmployee);
 		
@@ -110,17 +119,29 @@ public class EmployeeService {
 	
 	}
 
-	public ResponseEntity<List<Employee>> findByName(String name) {
+	public ResponseEntity<List<EmployeeDTO>> findByName(String name) {
 		
 		
 		try {
 			
 			List<Employee> employeeList = employeeDao.findByName(name);
 			
+			List<EmployeeDTO> employeeDtoList = new ArrayList<>();
+			
+			
+			
 			if(employeeList != null) {
-				return new ResponseEntity<>(employeeList,HttpStatus.OK);
+				
+				for(Employee e : employeeList) {
+					employeeDtoList.add(convertToEmployeeDTO(e));
+				}
+				
+				return new ResponseEntity<>(employeeDtoList,HttpStatus.OK);
 			}
 			else {
+				
+				
+				
 				return new ResponseEntity<>(new ArrayList<>() ,HttpStatus.NOT_FOUND);
 			}
 
@@ -130,5 +151,54 @@ public class EmployeeService {
 		}
 		
 	}
+	
+	private EmployeeDTO convertToEmployeeDTO(Employee employee) {
+		
+		DepartmentDTO departmentDTO = new DepartmentDTO();
+		
+		departmentDTO.setDid(employee.getEdepartment().getDid());
+		departmentDTO.setDname(employee.getEdepartment().getDname());
+	
+		EmployeeDTO employeeDTO = new EmployeeDTO();
+		
+		employeeDTO.setEid(employee.getEid());
+		employeeDTO.setEname(employee.getEname());
+		employeeDTO.setEage(employee.getEage());
+		employeeDTO.setEdob(employee.getEdob());
+		employeeDTO.setEmail(employee.getEmail());
+		employeeDTO.setEsalary(employee.getEsalary());
+		employeeDTO.setEdepartment(departmentDTO);
+		
+		
+		return employeeDTO;
+	}
+	
+	private Employee convertToEmployee(EmployeeDTO employeeDTO) {
+		
+		Department department = new Department();
+		
+		department.setDid(employeeDTO.getEdepartment().getDid());
+		department.setDname(employeeDTO.getEdepartment().getDname());
+		
+		
+		Employee employee = new Employee();
+		
+		employee.setEid(employeeDTO.getEid());
+		employee.setEage(employeeDTO.getEage());
+		employee.setEname(employeeDTO.getEname());
+		employee.setEmail(employeeDTO.getEmail());
+		employee.setEdob(employeeDTO.getEdob());
+		employee.setEsalary(employeeDTO.getEsalary());
+		
+		employee.setEdepartment(department);
+		
+		
+		return employee;
+	}
+	
+	
+	
+	
+	
 
 }

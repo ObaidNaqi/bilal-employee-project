@@ -16,7 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.bilal.employeeapp.EmployeeManagementApplication;
-import com.bilal.employeeapp.model.Employee;
+import com.bilal.employeeapp.dto.DepartmentDTO;
+import com.bilal.employeeapp.dto.EmployeeDTO;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -37,7 +38,7 @@ public class StepDefinitions {
     private TestRestTemplate restTemplate;
 
     private ResponseEntity<String> response;
-    private Employee newEmployee = new Employee();
+    private EmployeeDTO newEmployee = new EmployeeDTO();
 
     @Given("the Employee Management application is running")
     public void the_employee_management_application_is_running() {
@@ -80,7 +81,11 @@ public class StepDefinitions {
     
     @And("the user select the department Development {string}")
     public void the_user_enter_the_department_development(String department) {
-    	 newEmployee.setEdepartment(null);
+    	
+    	DepartmentDTO departmentDto = new DepartmentDTO();
+    	departmentDto.setDid(Integer.parseInt(department));
+    	
+    	 newEmployee.setEdepartment(departmentDto);
     }
     
     @And("the user enter the Salary {string}")
@@ -95,7 +100,7 @@ public class StepDefinitions {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
 
-        HttpEntity<Employee> requestEntity = new HttpEntity<>(newEmployee, headers);
+        HttpEntity<EmployeeDTO> requestEntity = new HttpEntity<>(newEmployee, headers);
 
         response = restTemplate.exchange(baseUrl + "/employee/add", HttpMethod.POST, requestEntity, String.class);
     }

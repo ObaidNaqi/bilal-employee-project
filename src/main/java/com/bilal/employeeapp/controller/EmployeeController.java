@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bilal.employeeapp.dto.EmployeeDTO;
 import com.bilal.employeeapp.model.Employee;
 import com.bilal.employeeapp.service.EmployeeService;
 
@@ -25,7 +26,7 @@ public class EmployeeController {
 	EmployeeService employeeService;
 	
 	@GetMapping("/employees")
-	public ResponseEntity<List<Employee>> getAllEmployee(){
+	public ResponseEntity<List<EmployeeDTO>> getAllEmployee(){
 		return employeeService.getAllEmployee();
 	}
 	
@@ -35,19 +36,19 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/employees/search")
-    public ResponseEntity<List<Employee>> searchEmployeesByName(@RequestParam String name) {
+    public ResponseEntity<List<EmployeeDTO>> searchEmployeesByName(@RequestParam String name) {
         return employeeService.findByName(name);
     }
 	
 	@PostMapping("/employee/add")
-	public ResponseEntity<String> addEmployee(@RequestBody Employee employee) {
-		return employeeService.addEmployee(employee);
+	public ResponseEntity<String> addEmployee(@RequestBody EmployeeDTO employeeDTO) {
+		return employeeService.addEmployee(employeeDTO);
 	
 	}
 	
 	@PutMapping("/employee/update/{id}")
-	public void updateEmployee(@PathVariable Integer id, @RequestBody Employee employee) {
-		 employeeService.updateEmployee(id, employee);
+	public void updateEmployee(@PathVariable Integer id, @RequestBody EmployeeDTO employeeDTO) {
+		 employeeService.updateEmployee(id, employeeDTO);
 		
 		
 	}
@@ -57,6 +58,9 @@ public class EmployeeController {
 		return employeeService.deleteEmployee(id);
 		
 	}
+	
+	
+	
 	
 	
 }

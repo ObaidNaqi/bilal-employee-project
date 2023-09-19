@@ -55,11 +55,13 @@ public class EmployeeService {
 	    try {
 	        Employee saveEmployee = employeeDao.save(convertToEmployee(employeeDTO));
 
-	        if (saveEmployee==null) {
+	        if (saveEmployee!=null) {
+	        	return ResponseEntity.status(HttpStatus.CREATED).body("Employee added successfully");
+	        }else {
+	        	
 	        	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Employee added fail");
-	        } 
+	        }
 	        
-	        return ResponseEntity.status(HttpStatus.CREATED).body("Employee added successfully");
 	        
 	    } catch (Exception e) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());

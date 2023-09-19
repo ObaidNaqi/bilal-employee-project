@@ -21,10 +21,7 @@ public class EmployeeService {
 	public IEmployeeDao employeeDao;
 	
 
-//	public Optional<Employee> findById(Integer eid) {
-//		return employeeDao.findById(eid);
-//	}
-//	
+
 	
 	public ResponseEntity<List<EmployeeDTO>> getAllEmployee(){
 		
@@ -58,11 +55,12 @@ public class EmployeeService {
 	    try {
 	        Employee saveEmployee = employeeDao.save(convertToEmployee(employeeDTO));
 
-	        if (saveEmployee != null) {
-	            return ResponseEntity.status(HttpStatus.CREATED).body("Employee added successfully");
-	        } else {
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Employee added fail");
-	        }
+	        if (saveEmployee == null) {
+	        	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Employee added fail");
+	        } 
+	        
+	        return ResponseEntity.status(HttpStatus.CREATED).body("Employee added successfully");
+	        
 	    } catch (Exception e) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
 	    }
@@ -110,10 +108,10 @@ public class EmployeeService {
 		Employee employee = employeeDao.findById(id).orElse(null); 
 		
 		if (employee == null) {
-			return new ResponseEntity<Employee>(employee, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(employee, HttpStatus.NOT_FOUND);
 		}
 		else {
-			return new ResponseEntity<Employee>(employee,HttpStatus.OK);
+			return new ResponseEntity<>(employee,HttpStatus.OK);
 		}
 		
 	

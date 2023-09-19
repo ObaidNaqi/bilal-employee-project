@@ -55,7 +55,7 @@ public class EmployeeService {
 	    try {
 	        Employee saveEmployee = employeeDao.save(convertToEmployee(employeeDTO));
 
-	        if (saveEmployee == null) {
+	        if (saveEmployee==null) {
 	        	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Employee added fail");
 	        } 
 	        

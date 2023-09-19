@@ -55,7 +55,7 @@ public class EmployeeService {
 	    try {
 	        Employee saveEmployee = employeeDao.save(convertToEmployee(employeeDTO));
 
-	        if (saveEmployee!=null) {
+	        if (saveEmployee!=null && saveEmployee.getEid()>0) {
 	        	return ResponseEntity.status(HttpStatus.CREATED).body("Employee added successfully");
 	        }else {
 	        	

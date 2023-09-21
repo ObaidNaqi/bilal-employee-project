@@ -32,7 +32,7 @@ public class EmployeeService {
 			List<Employee> employeeList = employeeDao.findAll();
 			
 			
-			if(employeeList != null) {
+			if(employeeList != null && employeeList.size()>0) {
 				
 				for(Employee e : employeeList) {
 					employeeDTOList.add(convertToEmployeeDTO(e));

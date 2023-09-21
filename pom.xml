@@ -245,6 +245,7 @@
 						<exclude>**/EmployeeManagementApplication.*</exclude>
 						<exclude>**/entity/*.*</exclude>
 						<exclude>**/model/*.*</exclude>
+						<exclude>**/dto/*.*</exclude>
 					</excludes>
 				</configuration>
 				<executions>
@@ -301,7 +302,7 @@
 					<mutators>
 						<mutator>DEFAULTS</mutator>
 					</mutators>
-					<mutationThreshold>50</mutationThreshold>
+					<mutationThreshold>70</mutationThreshold>
 					<outputFormats>
 						<outputFormat>XML</outputFormat>
 						<outputFormat>HTML</outputFormat>

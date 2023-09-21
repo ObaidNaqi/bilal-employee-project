@@ -1,6 +1,7 @@
 package com.bilal.employeeapp.service;
 
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -68,6 +69,20 @@ public class EmployeeServiceTest {
 		assertEquals(2, response.getBody().get(0).getEdepartment().getDid());
 
 		verify(iemployeeDao, times(1)).findAll();
+	}
+	
+	@Test
+	public void testGetAllEmployeeEmptyList() {
+	    List<Employee> employees = new ArrayList<>();
+
+	    when(iemployeeDao.findAll()).thenReturn(employees);
+
+	    ResponseEntity<List<EmployeeDTO>> response = employeeService.getAllEmployee();
+
+	    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+	    assertTrue(response.getBody().isEmpty()); 
+
+	    verify(iemployeeDao, times(1)).findAll();
 	}
 
 	@Test
@@ -174,6 +189,23 @@ public class EmployeeServiceTest {
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		assertEquals("Employee added successfully", response.getBody());
 	}
+	
+	
+	 @Test
+	    public void testAddEmployeeInvalidEid() {
+	        EmployeeDTO employeeDTO = new EmployeeDTO(1, "Bilal", Date.valueOf("1995-01-01"), 30, "bilal@gmail.com", 5000,
+					new DepartmentDTO(2));
+
+	        when(iemployeeDao.save(any(Employee.class))).thenReturn(new Employee(-1, "Bilal", Date.valueOf("1995-01-01"), 30, "bilal@gmail.com", 5000,
+					new Department(2)));
+
+	        ResponseEntity<String> response = employeeService.addEmployee(employeeDTO);
+
+	        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+	        assertEquals("Employee added fail", response.getBody());
+
+	        verify(iemployeeDao, times(1)).save(any(Employee.class));
+	    }
 
 	@Test
 	public void testAddEmployeeInternalServerError() {
@@ -274,6 +306,8 @@ public class EmployeeServiceTest {
 
 		verify(iemployeeDao, times(1)).findById(idToSearch);
 	}
+	
+	
 
 	@Test
 	public void testAddEmployeeFail() {

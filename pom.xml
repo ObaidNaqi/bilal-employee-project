@@ -22,12 +22,14 @@
 		<sonar.coverage.exclusions>
 			**/EmployeeManagementApplication.*,
 			**/entity/*.*,
-			**/model/*.*
+			**/model/*.*,
+			**/dto/*.*
 		</sonar.coverage.exclusions>
 		<sonar.exclusions>
 			**/EmployeeManagementApplication.*,
 			**/entity/*.*,
-			**/model/*.*
+			**/model/*.*,
+			**/dto/*.*
 		</sonar.exclusions>
 	</properties>
 

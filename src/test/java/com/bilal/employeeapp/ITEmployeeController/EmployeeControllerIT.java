@@ -3,8 +3,6 @@ package com.bilal.employeeapp.ITEmployeeController;
 import com.bilal.employeeapp.EmployeeManagementApplication;
 import com.bilal.employeeapp.dto.DepartmentDTO;
 import com.bilal.employeeapp.dto.EmployeeDTO;
-import com.bilal.employeeapp.model.Department;
-import com.bilal.employeeapp.model.Employee;
 import com.bilal.employeeapp.service.EmployeeService;
 
 import org.junit.Test;
@@ -13,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
@@ -23,8 +18,6 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Date;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -48,22 +41,25 @@ public class EmployeeControllerIT {
 
 //    @Test
 //    public void testAddEmployee() {
-//    	
-//    	
-//        Employee employee = new Employee();
-//        employee.setEname("Hassan");
-//        employee.setEage(25);
-//        employee.setEdob(Date.valueOf("1990-01-01"));
-//        employee.setEmail("hassan@gmail.com");
-//        employee.setEsalary(40000);
-//        employee.setEdepartment(null);
+//        EmployeeDTO employeeDTO = new EmployeeDTO();
+//        employeeDTO.setEname("Hassan");
+//        employeeDTO.setEage(25);
+//        employeeDTO.setEdob(Date.valueOf("1990-01-01"));
+//        employeeDTO.setEmail("hassan@gmail.com");
+//        employeeDTO.setEsalary(40000);
+//        employeeDTO.setEdepartment(new DepartmentDTO(2));
 //
-//        ResponseEntity<String> responseEntity = restTemplate.postForEntity("/employee/add", employee, String.class);
+//        // Stub the behavior of the employeeService.addEmployee method
+//        when(employeeService.addEmployee(eq(employeeDTO)))
+//            .thenReturn(ResponseEntity.status(HttpStatus.CREATED).body("Employee added successfully"));
 //
-//     
+//        ResponseEntity<String> responseEntity = restTemplate.postForEntity("/employee/add", employeeDTO, String.class);
+//
 //        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-//        assertNotNull(responseEntity.getBody());
+//        assertEquals("Employee added successfully", responseEntity.getBody());
 //
+//        // Verify that employeeService.addEmployee was called exactly once with the correct argument
+//        verify(employeeService, times(1)).addEmployee(eq(employeeDTO));
 //    }
     
     

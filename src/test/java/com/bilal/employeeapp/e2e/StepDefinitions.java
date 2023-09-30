@@ -13,7 +13,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bilal.employeeapp.EmployeeManagementApplication;
 import com.bilal.employeeapp.dto.DepartmentDTO;
@@ -24,9 +24,13 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-@RunWith(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = EmployeeManagementApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class StepDefinitions {
+	
+	
+	
+	
 	
 	@LocalServerPort
 	private int port;
@@ -42,20 +46,18 @@ public class StepDefinitions {
 
     @Given("the Employee Management application is running")
     public void the_employee_management_application_is_running() {
-        // Set the base URL for your application
+        
         baseUrl = "http://localhost:" + port + "/api/v1/employee";
     }
 
     @When("the user opens the Employee List page")
     public void the_user_opens_the_employee_list_page() {
-        // Implement code to navigate to the Employee List page
-        // This can include opening a web browser or making an HTTP request
+       
     }
 
     @And("the user clicks on the \"Create New Employee\" button")
     public void the_user_clicks_on_create_new_employee_button() {
-        // Implement code to simulate clicking on the "Create New Employee" button
-        // This can include finding the button element in the HTML page and triggering a click event
+        
     }
     
     @And("the user enter the Name {string}")
@@ -139,3 +141,5 @@ public class StepDefinitions {
     
 
 }
+
+

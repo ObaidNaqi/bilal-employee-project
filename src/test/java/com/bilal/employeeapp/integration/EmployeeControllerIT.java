@@ -1,26 +1,43 @@
 //package com.bilal.employeeapp.integration;
 //
-//import org.junit.jupiter.api.AfterAll;
-//import org.junit.jupiter.api.BeforeAll;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.TestInstance;
+//
+//
+//import org.junit.AfterClass;
+//import org.junit.BeforeClass;
+//import org.junit.Before;
+//import org.junit.Test;
+//import org.junit.runner.RunWith;
 //import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 //import org.springframework.boot.test.context.SpringBootTest;
+//import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 //import org.springframework.boot.test.web.client.TestRestTemplate;
 //import org.springframework.boot.test.web.server.LocalServerPort;
-//import org.springframework.test.context.DynamicPropertyRegistry;
-//import org.springframework.test.context.DynamicPropertySource;
+//import org.springframework.http.HttpStatus;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.test.context.junit4.SpringRunner;
 //import org.testcontainers.containers.MySQLContainer;
 //import org.testcontainers.junit.jupiter.Container;
 //import org.testcontainers.junit.jupiter.Testcontainers;
-//import org.testcontainers.utility.DockerImageName;
 //
-//import static org.junit.jupiter.api.Assertions.assertEquals;
+//import com.bilal.employeeapp.dao.IEmployeeDao;
+//import com.bilal.employeeapp.dto.DepartmentDTO;
+//import com.bilal.employeeapp.dto.EmployeeDTO;
 //
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//
+//import java.sql.Date;
+//
+//import static org.junit.Assert.assertEquals;
+//
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+//@AutoConfigureMockMvc
 //@Testcontainers
-//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 //public class EmployeeControllerIT {
+//
+//    @Container
+//    private static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql:5.7").withDatabaseName("mydb")
+//            .withUsername("root").withPassword("password").withReuse(true);
 //
 //    @LocalServerPort
 //    private int port;
@@ -28,38 +45,45 @@
 //    @Autowired
 //    private TestRestTemplate restTemplate;
 //
-//    @Container
-//    private static final MySQLContainer<?> mySQLContainer = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.28"))
-//            .withUsername("test")
-//            .withPassword("test")
-//            .withDatabaseName("test");
+//    @Autowired
+//    private IEmployeeDao employeeDao;
 //
-//    @BeforeAll
-//    static void startContainers() {
-//        mySQLContainer.start();
+//    @Before
+//    public void setUp() {
+//        employeeDao.deleteAll();
 //    }
 //
-//    @AfterAll
-//    static void stopContainers() {
-//        mySQLContainer.stop();
+//    @BeforeClass
+//    public static void beforeAll() {
+//        mysql.start();
 //    }
 //
-//    @DynamicPropertySource
-//    static void setDatasourceProperties(DynamicPropertyRegistry registry) {
-//        registry.add("spring.datasource.url", mySQLContainer::getJdbcUrl);
-//        registry.add("spring.datasource.username", mySQLContainer::getUsername);
-//        registry.add("spring.datasource.password", mySQLContainer::getPassword);
+//    @AfterClass
+//    public static void afterAll() {
+//        mysql.stop();
 //    }
 //
 //    @Test
-//    public void testGetAllEmployees() {
-//        // Add test data to the database if needed
+//    public void testAddEmployee() {
+//        // Arrange
+//       EmployeeDTO employee = new EmployeeDTO();
+//       employee.setEname("Hassan");
+//       employee.setEage(25);
+//       employee.setEdob(Date.valueOf("1990-01-01"));
+//       employee.setEmail("hassan@gmail.com");
+//       employee.setEsalary(40000);
+//       employee.setEdepartment(new DepartmentDTO(2));
 //
-//        // Make an HTTP GET request to your API endpoint
-//        String baseUrl = "http://localhost:" + port + "/api/v1/employee/employees";
-//        String response = restTemplate.getForObject(baseUrl, String.class);
+//        String url = "http://localhost:" + port + "/api/v1/employee/employee/add";
 //
-//        // Add your assertions based on the response
-//        assertEquals("Your expected response body", response);
+//        // Act
+//        ResponseEntity<EmployeeDTO> response = restTemplate.postForEntity(url, employee, EmployeeDTO.class);
+//
+//        System.out.println("response = "+response);
+//      
 //    }
+//
+//   
+//
+//   
 //}

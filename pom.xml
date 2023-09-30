@@ -135,13 +135,11 @@
 			<type>pom</type>
 		</dependency>
 
-
-		<!-- Test Containners -->
-
+		<!-- Test Container -->
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.27</version>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.testcontainers</groupId>
@@ -151,11 +149,6 @@
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.rest-assured</groupId>
-			<artifactId>rest-assured</artifactId>
 			<scope>test</scope>
 		</dependency>
 
@@ -213,7 +206,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			
+
 			<!-- Coveralls -->
 			<plugin>
 				<groupId>org.eluder.coveralls</groupId>
@@ -265,7 +258,7 @@
 					</execution>
 				</executions>
 			</plugin>
-		<!-- Mutation testing -->
+			<!-- Mutation testing -->
 			<plugin>
 				<groupId>org.pitest</groupId>
 				<artifactId>pitest-maven</artifactId>
@@ -286,14 +279,18 @@
 						<param>com.bilal.employeeapp.exceptions.*</param>
 					</targetClasses>
 					<excludedTestClasses>
-						<param>com.bilal.employeeapp.controller.WebControllerTest</param>
-						<param>com.bilal.employeeapp.ITWebController.WebControllerIT</param>
+						<param>
+							com.bilal.employeeapp.controller.WebControllerTest</param>
+						<param>
+							com.bilal.employeeapp.ITWebController.WebControllerIT</param>
 						<param>com.bilal.employeeapp.e2e.CucumberTestRunnerE2E</param>
 					</excludedTestClasses>
 					<targetTests>
-						<param>com.bilal.employeeapp.controller.EmployeeControllerTest</param>
+						<param>
+							com.bilal.employeeapp.controller.EmployeeControllerTest</param>
 						<param>com.bilal.employeeapp.service.EmployeeServiceTest</param>
-						<param>com.bilal.employeeapp.ITEmployeeController.EmployeeControllerIT</param>
+						<param>
+							com.bilal.employeeapp.ITEmployeeController.EmployeeControllerIT</param>
 					</targetTests>
 					<avoidCallsTo>
 						<avoidCallsTo>java.util.logging</avoidCallsTo>
